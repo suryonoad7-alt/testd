@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hasil Foto & GPS</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f4f6fb; color: #1f2937; }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 { font-size: 24px; margin-bottom: 16px; }
+    .back-link { display: inline-block; margin-bottom: 20px; text-decoration: none; color: #003f8a; font-weight: 700; }
+    .card { background: #fff; border: 1px solid #d1d5db; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08); }
+    .card h2 { margin: 0 0 10px; font-size: 18px; }
+    .card img { width: 100%; max-width: 100%; border-radius: 10px; margin-bottom: 12px; }
+    .meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px; }
+    .meta div { background: #f8fafc; padding: 10px; border-radius: 10px; font-size: 14px; }
+    .meta b { display: block; margin-bottom: 4px; color: #111827; }
+    .empty { padding: 32px; text-align: center; color: #4b5563; }
+    .status { margin-top: 20px; font-size: 14px; color: #374151; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back-link" href="/">← Kembali ke halaman utama</a>
+    <h1>Hasil Foto & GPS</h1>
+    <div id="content"></div>
+    <div id="status" class="status"></div>
+  </div>
+
+  <script>
+    async function loadUploads() {
+      const content = document.getElementById('content');
+      const status = document.getElementById('status');
+      status.textContent = 'Memuat data...';
+
+      try {
+        const response = await fetch('/api/uploads');
+        const result = await response.json();
+        if (!response.ok || !result.success) {
+          throw new Error(result.error || 'Gagal memuat data.');
+        }
+
+        if (result.data.length === 0) {
+          content.innerHTML = '<div class="empty">Belum ada data foto dan GPS yang tersimpan.</div>';
+          status.textContent = '';
+          return;
+        }
+
+        const items = result.data.map((item) => {
+          return `
+            <div class="card">
+              <h2>Upload: ${new Date(item.timestamp).toLocaleString('id-ID')}</h2>
+              <img src="${item.imageUrl}" alt="Capture" />
+              <div class="meta">
+                <div><b>Latitude</b>${item.location.latitude}</div>
+                <div><b>Longitude</b>${item.location.longitude}</div>
+                <div><b>Akuras</b>${item.location.accuracy} meter</div>
+                <div><b>Waktu GPS</b>${new Date(item.location.timestamp).toLocaleString('id-ID')}</div>
+              </div>
+              <div><b>File metadata</b> ${item.metaFile}</div>
+            </div>
+          `;
+        }).join('');
+
+        content.innerHTML = items;
+        status.textContent = `${result.data.length} data ditampilkan.`;
+      } catch (error) {
+        content.innerHTML = '<div class="empty">Terjadi kesalahan saat memuat data.</div>';
+        status.textContent = error.message;
+      }
+    }
+
+    loadUploads();
+  </script>
+</body>
+</html>

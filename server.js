@@ -35,6 +35,32 @@ app.post('/upload-data', (req, res) => {
   res.json({ success: true, imageFile: `/uploads/${path.basename(imageFile)}` });
 });
 
+app.get('/api/uploads', (req, res) => {
+  try {
+    const files = fs.readdirSync(uploadDir);
+    const metas = files
+      .filter((file) => file.endsWith('-meta.json'))
+      .map((metaFile) => {
+        const metaPath = path.join(uploadDir, metaFile);
+        const meta = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
+        return {
+          ...meta,
+          imageUrl: `/uploads/${meta.imageFile}`,
+          metaFile,
+        };
+      })
+      .sort((a, b) => b.timestamp.localeCompare(a.timestamp));
+
+    res.json({ success: true, data: metas });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+app.get('/results', (req, res) => {
+  res.sendFile(path.join(__dirname, 'results.html'));
+});
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
