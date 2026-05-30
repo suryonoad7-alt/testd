@@ -1,0 +1,44 @@
+const fs = require('fs');
+const path = require('path');
+const express = require('express');
+
+const app = express();
+const port = process.env.PORT || 3000;
+const uploadDir = path.join(__dirname, 'uploads');
+
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+app.use(express.static(path.join(__dirname)));
+app.use(express.json({ limit: '20mb' }));
+
+app.post('/upload-data', (req, res) => {
+  const { image, location } = req.body;
+  if (!image || !location) {
+    return res.status(400).json({ error: 'Missing image or location data' });
+  }
+
+  const match = image.match(/^data:(.+);base64,(.+)$/);
+  if (!match) {
+    return res.status(400).json({ error: 'Invalid image format' });
+  }
+
+  const buffer = Buffer.from(match[2], 'base64');
+  const timestamp = Date.now();
+  const imageFile = path.join(uploadDir, `capture-${timestamp}.jpg`);
+  const metaFile = path.join(uploadDir, `capture-${timestamp}-meta.json`);
+
+  fs.writeFileSync(imageFile, buffer);
+  fs.writeFileSync(metaFile, JSON.stringify({ timestamp: new Date().toISOString(), imageFile: path.basename(imageFile), location }, null, 2));
+
+  res.json({ success: true, imageFile: `/uploads/${path.basename(imageFile)}` });
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.listen(port, () => {
+  console.log(`Server berjalan di http://localhost:${port}`);
+});

