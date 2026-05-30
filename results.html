@@ -31,7 +31,7 @@
     <div id="status" class="status"></div>
   </div>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-o9N1j7kBoSAfQ+273J3z6bUyZ8s8XzkEy+f1f5eM92I=" crossorigin=""></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
   <script>
     async function loadLatest() {
       const content = document.getElementById('content');
@@ -76,12 +76,16 @@
           </div>
         `;
 
-        const map = L.map('map').setView([lat, lon], 15);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; OpenStreetMap contributors',
-          maxZoom: 19,
-        }).addTo(map);
-        L.marker([lat, lon]).addTo(map).bindPopup('Lokasi terakhir').openPopup();
+        if (typeof L !== 'undefined') {
+          const map = L.map('map').setView([lat, lon], 15);
+          L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors',
+            maxZoom: 19,
+          }).addTo(map);
+          L.marker([lat, lon]).addTo(map).bindPopup('Lokasi terakhir').openPopup();
+        } else {
+          document.getElementById('map').innerHTML = '<div style="padding:20px;text-align:center;color:#475569;">Peta tidak tersedia saat ini.</div>';
+        }
 
         status.textContent = 'Data terakhir ditampilkan.';
       } catch (error) {
